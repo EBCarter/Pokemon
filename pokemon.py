@@ -1,6 +1,8 @@
 class Pokemon:
 
-  def __init__(self, name, pkmnType, type2, maxhp, attack, defense, speed, move1, move2, move3):
+  def __init__(self, name, x, y, pkmnType, type2, maxhp, attack, defense, speed, move1, move2, move3, image):
+    self.x = x
+    self.y = y
     self.__pkmnType = pkmnType
     self.__type2 = type2
     self.__name = name
@@ -12,6 +14,8 @@ class Pokemon:
     self.__move1 = move1
     self.__move2 = move2
     self.__move3 = move3
+    self.image = image
+    self.rect = pygame.Rect(self.x, self.y, 50, 50)
 
   def __str__(self):
 

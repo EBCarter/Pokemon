@@ -4,7 +4,15 @@ from computer import Computer
 from pokemon import Pokemon
 from move import Move
 
-pkmnNames = ["Venusaur","Sceptile","Tropius","Chandelure","Camerupt","Arcanine","Gyarados","Blastoise","Milotic","Nidoking","Flygon","Mamoswine","Jolteon","Galvantula","Vikavolt","Pidgeot","Altaria","Aerodactyl","Lapras","Articuno","Walrein", "Agron", "Tyranitar", "Onix", "Salazzle", "Tentacool", "Naganadel", "Gengar", "Banette", "Giratina"]
+#make the background
+
+
+#the images
+samurott_image = pygame.image.load('samurott.png')
+torterra_image = pygame.image.load('torterra.png')
+typhlosion_image = pygame.image.load('typhlosion.png')
+
+pkmnNames = ["Torterra", "Samurott", "Typhlosion"]
 
 class Play:
   def __init__(self, party1, party2):
@@ -25,7 +33,7 @@ class Play:
       self.__p1F = False
     return self.__p1F
 
-  def switch(self):
+  """def switch(self):
     x = self.initAtt()
     if x == True:
       party = self.__party1
@@ -41,7 +49,7 @@ class Play:
         party.remove(x)
         party.insert(y,0)
     self.__pokemon1 = party1[0]
-    self.__pokemon2 = party2[0]
+    self.__pokemon2 = party2[0]"""
 
   def useMove(self):
     #uses a... move?
@@ -193,17 +201,34 @@ class Play:
 
 
 #Moves
-
-
-#Chipper Team - gyarados, lapras, absol, tyranitar, chandelure, sceptile
-#Jeremy's Team - gardevoir, aggron, absol, flygon, camerupt, sceptile
+#Water
+samur-rise = Move("Samur-Rise", "Water", 50, 95, 0)
+condense = Move("Condense", "Water", 20, 90, 30)
+hydro = Move("Hydro", "Water", 40, 100, 0)
+#Normal
+fortnite = Move("Fortnite", "Normal", 90, 50, 0)
+#Grass
+bramble = Move("Bramble", "Grass", 40, 100, 0)
+turtle = Move("Turtle", "Grass", 0, 100, 40)
+#Ground
+spiked = Move("Spiked", "Ground", 60, 65, 0)
+#Fire
+fire_tornado = Move("Fire Tornado", "Fire", 50, 90, 0)
+engulf = Move("Engulf", "Fire", 0, 95, 40)
+chicago = Move("Chicago", "Fire", 45, 100, 0)
 
 #Pokemon and stats
 #Water
-samurott = Pokemon("Samurott", "Water", "No")
+samurott = Pokemon("Samurott", 10, 100 "Water", "No", 120, 40, 50, 50, samur-rise, condense, hydro, fortnite, samurott_image)
+
+#Grass
+torterra = Pokemon("Torterra", 50, 100, "Grass", "Ground", 150, 45, 60, 30, bramble, turtle, spiked, fortnite, torterra_image)
+
+#Fire
+typhlosion = Pokemon("Typhlosion", 90, 100, "Fire", "No", 110, 55, 40, 45, fire_tornado, engulf, chicago, fortnite, typhlosion_image)
 
 
-pkmnObjects = [venusaur,sceptile,tropius,chandelure,camerupt,arcanine,gyarados,blastoise,milotic,nidoking,flygon,mamoswine,jolteon,galvantula,vikavolt,pidgeot,altaria,aerodactyl,lapras,articuno,walrein,tyranitar,aggron,tentacruel,naganadel,salazzle,gengar,banette,giratina,volcorona,steelix,ribombee,medicham,garchomp,dragonite,metagross,gardevoir,mew,absol,empoleon]
+#pkmnObjects = [venusaur,sceptile,tropius,chandelure,camerupt,arcanine,gyarados,blastoise,milotic,nidoking,flygon,mamoswine,jolteon,galvantula,vikavolt,pidgeot,altaria,aerodactyl,lapras,articuno,walrein,tyranitar,aggron,tentacruel,naganadel,salazzle,gengar,banette,giratina,volcorona,steelix,ribombee,medicham,garchomp,dragonite,metagross,gardevoir,mew,absol,empoleon]
 
 allPkmnNames = ''
 hold = 0
