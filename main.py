@@ -1,5 +1,7 @@
 import random
 import math
+import pygame, sys, time, random
+from pygame.locals import *
 from computer import Computer
 from pokemon import Pokemon
 from move import Move
@@ -15,21 +17,23 @@ typhlosion_image = pygame.image.load('typhlosion.png')
 pkmnNames = ["Torterra", "Samurott", "Typhlosion"]
 
 class Play:
-  def __init__(self, party1, party2):
-    self.__pokemon1 = party1[0]
+  def __init__(self, userPkmn, compPkmn):
+    '''self.__pokemon1 = party1[0]
     self.__pokemon2 = party2[0]
     self.__party1 = party1
-    self.__party2 = party2
+    self.__party2 = party'''
+    self.user = userPkmn
+    self.comp = compPkmn
 
   def initAtt(self):
     #chooses who is first and who is second in attack order
-    if self.__pokemon1.getSpeed() >= self.__pokemon2.getSpeed():
-      self.__att1 = self.__pokemon1
-      self.__att2 = self.__pokemon2
+    if self.user.getSpeed() >= self.comp.getSpeed():
+      self.__att1 = self.user
+      self.__att2 = self.comp
       self.__p1F = True
     else:
-      self.__att1 = self.__pokemon2
-      self.__att2 = self.__pokemon1
+      self.__att1 = self.comp
+      self.__att2 = self.usesr
       self.__p1F = False
     return self.__p1F
 
@@ -202,7 +206,7 @@ class Play:
 
 #Moves
 #Water
-samur-rise = Move("Samur-Rise", "Water", 50, 95, 0)
+samurrise = Move("Samur-Rise", "Water", 50, 95, 0)
 condense = Move("Condense", "Water", 20, 90, 30)
 hydro = Move("Hydro", "Water", 40, 100, 0)
 #Normal
@@ -219,7 +223,7 @@ chicago = Move("Chicago", "Fire", 45, 100, 0)
 
 #Pokemon and stats
 #Water
-samurott = Pokemon("Samurott", 10, 100 "Water", "No", 120, 40, 50, 50, samur-rise, condense, hydro, fortnite, samurott_image)
+samurott = Pokemon("Samurott", 10, 100, "Water", "No", 120, 40, 50, 50, samurrise, condense, hydro, fortnite, samurott_image)
 
 #Grass
 torterra = Pokemon("Torterra", 50, 100, "Grass", "Ground", 150, 45, 60, 30, bramble, turtle, spiked, fortnite, torterra_image)
@@ -233,7 +237,7 @@ typhlosion = Pokemon("Typhlosion", 90, 100, "Fire", "No", 110, 55, 40, 45, fire_
 allPkmnNames = ''
 hold = 0
 pType = 1
-for x in pkmnObjects:
+'''for x in pkmnObjects:
   if x.getType2() == 'No':
     allPkmnNames = allPkmnNames  + x.getName() + ": " + x.getType() + ". "
   else:
@@ -243,26 +247,11 @@ for x in pkmnObjects:
     allPkmnNames.strip(" ----- ")
     allPkmnNames += "\n"
     hold = 0
-
+'''
 party1 = []
 party2 = []
-print("Player 1: What 6 Pokemon do you want to use? Your choices are: \n" + allPkmnNames)
-for x in range(6):
-  pokemon1 = input("")
-  for y in pkmnObjects:
-    if y.getName() == pokemon1:
-      pokemon1 = y
-      party1.append(pokemon1)
-      break
-print("Player 2: What 6 Pokemon do you want to use? Your choices are: \n" + allPkmnNames)
-for x in range(6):
-  pokemon2 = input("")
-  for y in pkmnObjects:
-    if y.getName() == pokemon2:
-      pokemon2 = y
-      party2.append(pokemon2)
-      break
-game = Play(party1,party2)
+userPkmn = input("Player 1: What Pokemon do you want to use? Your choices are: \n" + str(pkmnNames) + "\n")
+game = Play(userPkmn, samurott)
 game.initAtt()
 while party1 != [] and party2 != []:
   game.doWhat()

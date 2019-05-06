@@ -1,3 +1,6 @@
+import pygame, sys, time, random
+from pygame.locals import *
+
 class Move:
   def __init__(self, name, moveType, power, accuracy, hpGain):
     self.__name = str(name)

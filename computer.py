@@ -1,3 +1,6 @@
+import pygame, sys, time, random
+from pygame.locals import *
+
 class Computer:
 
     def __init__(self,x,y):

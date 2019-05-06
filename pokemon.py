@@ -1,6 +1,9 @@
+import pygame, sys, time, random
+from pygame.locals import *
+
 class Pokemon:
 
-  def __init__(self, name, x, y, pkmnType, type2, maxhp, attack, defense, speed, move1, move2, move3, image):
+  def __init__(self, name, x, y, pkmnType, type2, maxhp, attack, defense, speed, move1, move2, move3, move4, image):
     self.x = x
     self.y = y
     self.__pkmnType = pkmnType
