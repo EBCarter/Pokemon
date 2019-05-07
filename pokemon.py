@@ -54,7 +54,7 @@ class Pokemon:
       self.__hp = self.__maxhp
     round(self.__hp)
 
-  def chooseMove(self):
+  def userChooseMove(self):
     move_choice = input( self.getName() + ", which move do you want to use? Enter the number \n 1): " + self.__move1.getName() + "\n 2): " + self.__move2.getName() + "\n 3): " + self.__move3.getName() + "\n")
 
     if move_choice == "1":
@@ -63,6 +63,10 @@ class Pokemon:
       return self.__move2
     elif move_choice == "3":
       return self.__move3
+
+  def choosePokemon(pkmnList):
+    choice = random.randint(1, (len(pkmnList)-1))
+    return choice
 
   def loseHealth(self, dmg, move, pokemon2):
     self.__hp -= dmg

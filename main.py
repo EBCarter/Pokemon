@@ -2,7 +2,6 @@ import random
 import math
 import pygame, sys, time, random
 from pygame.locals import *
-from computer import Computer
 from pokemon import Pokemon
 from move import Move
 
@@ -33,7 +32,7 @@ class Play:
       self.__p1F = True
     else:
       self.__att1 = self.comp
-      self.__att2 = self.usesr
+      self.__att2 = self.user
       self.__p1F = False
     return self.__p1F
 
@@ -57,7 +56,7 @@ class Play:
 
   def useMove(self):
     #uses a... move?
-    player1move = self.__att1.chooseMove()
+    player1move = self.__att1.userChooseMove()
     doesHit = player1move.hit()
     damageMult = 1
     dmg = 0
@@ -195,12 +194,12 @@ class Play:
   def switchTurn(self):
     #swtiches the turn :)
     if self.__p1F == True:
-      self.__att1 = self.__pokemon2
-      self.__att2 = self.__pokemon1
+      self.__att1 = self.comp
+      self.__att2 = self.user
       self.__p1F = False
     elif self.__p1F == False:
-      self.__att1 = self.__pokemon1
-      self.__att2 = self.__pokemon2
+      self.__att1 = self.user
+      self.__att2 = self.comp
       self.__p1F = True
 
 
@@ -232,27 +231,24 @@ torterra = Pokemon("Torterra", 50, 100, "Grass", "Ground", 150, 45, 60, 30, bram
 typhlosion = Pokemon("Typhlosion", 90, 100, "Fire", "No", 110, 55, 40, 45, fire_tornado, engulf, chicago, fortnite, typhlosion_image)
 
 
-#pkmnObjects = [venusaur,sceptile,tropius,chandelure,camerupt,arcanine,gyarados,blastoise,milotic,nidoking,flygon,mamoswine,jolteon,galvantula,vikavolt,pidgeot,altaria,aerodactyl,lapras,articuno,walrein,tyranitar,aggron,tentacruel,naganadel,salazzle,gengar,banette,giratina,volcorona,steelix,ribombee,medicham,garchomp,dragonite,metagross,gardevoir,mew,absol,empoleon]
-
+pkmnObjects = [torterra, samurott, typhlosion]
 allPkmnNames = ''
 hold = 0
 pType = 1
-'''for x in pkmnObjects:
-  if x.getType2() == 'No':
-    allPkmnNames = allPkmnNames  + x.getName() + ": " + x.getType() + ". "
-  else:
-    allPkmnNames = allPkmnNames  + x.getName() + ": " + x.getType() + ", " + x.getType2() + ". "
-  hold += 1
-  if hold == 5:
-    allPkmnNames.strip(" ----- ")
-    allPkmnNames += "\n"
-    hold = 0
-'''
-party1 = []
-party2 = []
-userPkmn = input("Player 1: What Pokemon do you want to use? Your choices are: \n" + str(pkmnNames) + "\n")
-game = Play(userPkmn, samurott)
+userPkmn = torterra
+
+userChoice = input("What Pokemon do you want to use? Your choices are: \n" + str(pkmnNames) + "\n")
+userChoice = userChoice.capitalize()
+compChoice = Pokemon.choosePokemon(pkmnObjects)
+for y in pkmnObjects:
+    if y.getName() == userChoice:
+        print("MATCH")
+        userPkmn = y
+        break
+compPkmn = pkmnObjects[compChoice - 1]
+game = Play(userPkmn, compPkmn)
+print(userPkmn)
 game.initAtt()
-while party1 != [] and party2 != []:
+while userPkmn.getHP() > 0:
   game.doWhat()
   game.switchTurn()
