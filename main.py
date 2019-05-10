@@ -184,12 +184,13 @@ class Play:
     if player1move.getPower() == 0:
       dmg = 0
 
-  def doWhat(self):
-    x = input(self.__att1.getName() + ", what do you want to do? Enter [Attack] or [Switch].")
-    if x == "Attack":
+  '''def doWhat(self):
+    x = input(self.__att1.getName() + ", what do you want to do?")
+    #x = x.capitalize()
+    if x.capitalize() == "Attack":
       self.useMove()
     elif x == "Switch":
-      self.switch()
+      self.switch()'''
 
   def switchTurn(self):
     #swtiches the turn :)
@@ -239,10 +240,12 @@ userPkmn = torterra
 
 userChoice = input("What Pokemon do you want to use? Your choices are: \n" + str(pkmnNames) + "\n")
 userChoice = userChoice.capitalize()
-compChoice = Pokemon.choosePokemon(pkmnObjects)
+for x in range(len(pkmnObjects)):
+    compChoice = Pokemon.choosePokemon(pkmnObjects)
+    print(x)
 for y in pkmnObjects:
     if y.getName() == userChoice:
-        print("MATCH")
+        #print("MATCH")
         userPkmn = y
         break
 compPkmn = pkmnObjects[compChoice - 1]
@@ -250,5 +253,5 @@ game = Play(userPkmn, compPkmn)
 print(userPkmn)
 game.initAtt()
 while userPkmn.getHP() > 0:
-  game.doWhat()
+  game.useMove()
   game.switchTurn()
