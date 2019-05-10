@@ -30,10 +30,12 @@ class Play:
       self.__att1 = self.user
       self.__att2 = self.comp
       self.__p1F = True
+      print("You go first.")
     else:
       self.__att1 = self.comp
       self.__att2 = self.user
       self.__p1F = False
+      print("The computer goes first.")
     return self.__p1F
 
   """def switch(self):
@@ -240,17 +242,21 @@ userPkmn = torterra
 
 userChoice = input("What Pokemon do you want to use? Your choices are: \n" + str(pkmnNames) + "\n")
 userChoice = userChoice.capitalize()
-for x in range(len(pkmnObjects)):
-    compChoice = Pokemon.choosePokemon(pkmnObjects)
-    print(x)
+compChoice = Pokemon.choosePokemon(pkmnObjects)
+compPkmn = pkmnObjects[compChoice]
 for y in pkmnObjects:
     if y.getName() == userChoice:
         #print("MATCH")
         userPkmn = y
         break
-compPkmn = pkmnObjects[compChoice - 1]
+for x in range(len(pkmnObjects)):
+    print(x)
+    print(compChoice)
+    if compPkmn == userPkmn:
+        compChoice = Pokemon.choosePokemon(pkmnObjects)
+        compPkmn = pkmnObjects[compChoice - 1]
 game = Play(userPkmn, compPkmn)
-print(userPkmn)
+print("Your Pokemon is " + str(userPkmn) + "The computers Pokemon is " + str(compPkmn))
 game.initAtt()
 while userPkmn.getHP() > 0:
   game.useMove()

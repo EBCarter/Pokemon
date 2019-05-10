@@ -17,12 +17,13 @@ class Pokemon:
     self.__move1 = move1
     self.__move2 = move2
     self.__move3 = move3
+    self.__move4 = move4
     self.image = image
     self.rect = pygame.Rect(self.x, self.y, 50, 50)
 
   def __str__(self):
 
-    return "Your pokemon is a " + str(self.__name) + ". It's type is " + str(self.__pkmnType) + ", it has " + str(self.__hp) + " hit points,\nhas an attack stat of " + str(self.__attack) + ",has a defense stat of " + str(self.__defense) + ",and has a speed stat of " + str(self.__speed) + "\n"
+    return str(self.__name) + ". It's type is " + str(self.__pkmnType) + ", it has " + str(self.__hp) + " hit points,\nhas an attack stat of " + str(self.__attack) + ",has a defense stat of " + str(self.__defense) + ",and has a speed stat of " + str(self.__speed) + "\n"
 
   def getName(self):
     return self.__name
@@ -55,7 +56,7 @@ class Pokemon:
     round(self.__hp)
 
   def userChooseMove(self):
-    move_choice = input( self.getName() + ", which move do you want to use? Enter the number \n 1): " + self.__move1.getName() + "\n 2): " + self.__move2.getName() + "\n 3): " + self.__move3.getName() + "\n")
+    move_choice = input( self.getName() + ", which move do you want to use? Enter the number \n 1): " + self.__move1.getName() + "\n 2): " + self.__move2.getName() + "\n 3): " + self.__move3.getName() + "\n 4): " + self.__move4.getName() + "\n")
 
     if move_choice == "1":
       return self.__move1
@@ -63,9 +64,11 @@ class Pokemon:
       return self.__move2
     elif move_choice == "3":
       return self.__move3
+    elif move_choice == "4":
+        return self.__move4
 
   def choosePokemon(pkmnList):
-    choice = random.randint(1, (len(pkmnList)-1))
+    choice = random.randint(0, (len(pkmnList)-1))
     return choice
 
   def loseHealth(self, dmg, move, pokemon2):
