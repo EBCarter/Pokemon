@@ -5,13 +5,30 @@ from pygame.locals import *
 from pokemon import Pokemon
 from move import Move
 
-#make the background
+#Always call before utilizing pygame functions
+pygame.init()
 
+#make the background
+#background_image = pygame.image.load('')
 
 #the images
 samurott_image = pygame.image.load('samurott.png')
 torterra_image = pygame.image.load('torterra.png')
 typhlosion_image = pygame.image.load('typhlosion.png')
+
+#Sets FPS and starts game clock/
+FPS = 60
+fpsClock = pygame.time.Clock()
+
+DISPLAYSURF = pygame.display.set_mode((900,500), 0, 32)
+#Sets title of GUI frame
+pygame.display.set_caption("Pokemon Battle Simultaor")
+
+#Sets background color
+WHITE = (250, 250, 250)
+BLUE = (0,0,250)
+
+DISPLAYSURF.fill(BLUE)
 
 pkmnNames = ["Torterra", "Samurott", "Typhlosion"]
 
@@ -58,7 +75,14 @@ class Play:
 
   def useMove(self):
     #uses a... move?
-    player1move = self.__att1.userChooseMove()
+    print("-------------------------------------------")
+    if self.__p1F == True:
+        player1move = self.__att1.userChooseMove()
+    elif self.__p1F == False:
+        player1move = self.__att1.chooseMove()
+    #player1move = self.__att1.userChooseMove()
+
+
     doesHit = player1move.hit()
     damageMult = 1
     dmg = 0
@@ -167,13 +191,20 @@ class Play:
 
     if doesHit == False:
       dmg = 0
-      print("Your attack missed!")
+      if self.__p1F == True:
+          print("Your attack missed!")
+      elif self.__p1F == False:
+          print(str(compPkmn.getName()) + "\'s attack missed")
     elif doesHit == True:
       dmg = ((22 * player1move.getPower() * (self.__att1.getAttack() / self.__att2.getDefense()))/50)
       if player1move.getPower() != 0:
         dmg += 2
       dmg *= damageMult
       dmg = round(dmg)
+      if self.__p1F == True:
+          print("Your pokemon used " + str(player1move.getName()))
+      elif self.__p1F == False:
+          print(str(compPkmn.getName()) + " used " + str(player1move.getName()))
       self.__att1.gainHP(player1move)
       self.__att2.loseHealth(dmg,player1move, self.__att1)
       if self.__att2.getHP() <= 0:
@@ -261,3 +292,19 @@ game.initAtt()
 while userPkmn.getHP() > 0:
   game.useMove()
   game.switchTurn()
+
+#start game loop
+while True:
+
+    DISPLAYSURF.fill(BLUE)
+
+    for event in pygame.event.get():
+
+        #the quit event
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+
+    #update display
+    pygame.display.update()
+    fpsClock.tick(FPS)

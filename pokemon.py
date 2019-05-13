@@ -71,6 +71,17 @@ class Pokemon:
     choice = random.randint(0, (len(pkmnList)-1))
     return choice
 
+  def chooseMove(self):
+      choice = random.randint(1,4)
+      if choice == 1:
+        return self.__move1
+      elif choice == 2:
+        return self.__move2
+      elif choice == 3:
+        return self.__move3
+      elif choice == 4:
+          return self.__move4
+
   def loseHealth(self, dmg, move, pokemon2):
     self.__hp -= dmg
     if dmg == 0 and move.getRegain() > 0:
