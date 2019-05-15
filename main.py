@@ -15,6 +15,7 @@ pygame.init()
 samurott_image = pygame.image.load('samurott.png')
 torterra_image = pygame.image.load('torterra.png')
 typhlosion_image = pygame.image.load('typhlosion.png')
+title_screen = pygame.image.load('pokemon-background.png')
 
 #Sets FPS and starts game clock/
 FPS = 60
@@ -27,8 +28,6 @@ pygame.display.set_caption("Pokemon Battle Simultaor")
 #Sets background color
 WHITE = (250, 250, 250)
 BLUE = (0,0,250)
-
-DISPLAYSURF.fill(BLUE)
 
 pkmnNames = ["Torterra", "Samurott", "Typhlosion"]
 
@@ -236,7 +235,6 @@ class Play:
       self.__att2 = self.comp
       self.__p1F = True
 
-
 #Moves
 #Water
 samurrise = Move("Samur-Rise", "Water", 50, 95, 0)
@@ -295,11 +293,11 @@ while userPkmn.getHP() > 0:
 
 #start game loop
 while True:
-
-    DISPLAYSURF.fill(BLUE)
+    DISPLAYSURF.fill((0,0,0))
+    background = pygame.transform.scale(title_screen,(900, 500))
+    DISPLAYSURF.blit(background,(0, 0))
 
     for event in pygame.event.get():
-
         #the quit event
         if event.type == QUIT:
             pygame.quit()
