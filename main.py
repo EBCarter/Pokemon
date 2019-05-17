@@ -16,6 +16,7 @@ samurott_image = pygame.image.load('samurott.png')
 torterra_image = pygame.image.load('torterra.png')
 typhlosion_image = pygame.image.load('typhlosion.png')
 title_screen = pygame.image.load('pokemon-background.png')
+battle_screen = pygame.image.load('battle-scene.png')
 
 #Sets FPS and starts game clock/
 FPS = 60
@@ -269,7 +270,7 @@ hold = 0
 pType = 1
 userPkmn = torterra
 
-userChoice = input("What Pokemon do you want to use? Your choices are: \n" + str(pkmnNames) + "\n")
+'''userChoice = input("What Pokemon do you want to use? Your choices are: \n" + str(pkmnNames) + "\n")
 userChoice = userChoice.capitalize()
 compChoice = Pokemon.choosePokemon(pkmnObjects)
 compPkmn = pkmnObjects[compChoice]
@@ -284,24 +285,54 @@ for x in range(len(pkmnObjects)):
     if compPkmn == userPkmn:
         compChoice = Pokemon.choosePokemon(pkmnObjects)
         compPkmn = pkmnObjects[compChoice - 1]
+
+
 game = Play(userPkmn, compPkmn)
 print("Your Pokemon is " + str(userPkmn) + "The computers Pokemon is " + str(compPkmn))
-game.initAtt()
-while userPkmn.getHP() > 0:
-  game.useMove()
-  game.switchTurn()
+game.initAtt()'''
+#while userPkmn.getHP() > 0:
+  #game.useMove()
+  #game.switchTurn()
+
+BASICFONT = pygame.font.Font('freesansbold.ttf',16)
+text = "What Pokemon do you want to use? To choose Samurott, press left." \
+        " To choose Typhlosion press up. To choose Torterra press right."
+print = BASICFONT.render(text,1,(0,0,0))
+Rect = print.get_rect()
+Rect.topleft = (50, 400)
+chosenPkmn = False
 
 #start game loop
 while True:
     DISPLAYSURF.fill((0,0,0))
     background = pygame.transform.scale(title_screen,(900, 500))
-    DISPLAYSURF.blit(background,(0, 0))
+    battlescene = pygame.transform.scale(battle_screen,(900, 500))
+    #DISPLAYSURF.blit(background,(0, 0))
+
+    if chosenPkmn == False:
+        DISPLAYSURF.blit(background,(0,0))
+
+    if chosenPkmn == True and userPkmn.getHP() > 0:
+        DISPLAYSURF.blit(battlescene,(0,0))
+
+    DISPLAYSURF.blit(print, Rect)
 
     for event in pygame.event.get():
         #the quit event
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+
+        if event.type == KEYDOWN:
+
+            if event.key == K_RIGHT:
+                userChoice = torterra
+
+            elif event.key == K_LEFT:
+                userChoice = samurott
+
+            elif event.key == K_UP:
+                userChoice = typhlosion
 
     #update display
     pygame.display.update()
