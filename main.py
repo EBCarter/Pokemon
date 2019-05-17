@@ -236,6 +236,15 @@ class Play:
       self.__att2 = self.comp
       self.__p1F = True
 
+def message_display(text):
+    BASICFONT = pygame.font.Font('freesansbold.ttf',16)
+    TextSurf = BASICFONT.render(text,1,(0,0,0))
+    Rect = TextSurf.get_rect()
+    Rect.topleft = (50,400)
+    DISPLAYSURF.blit(TextSurf, Rect)
+    pygame.display.update()
+    time.sleep(2)
+
 #Moves
 #Water
 samurrise = Move("Samur-Rise", "Water", 50, 95, 0)
@@ -272,32 +281,30 @@ userPkmn = torterra
 
 '''userChoice = input("What Pokemon do you want to use? Your choices are: \n" + str(pkmnNames) + "\n")
 userChoice = userChoice.capitalize()
-compChoice = Pokemon.choosePokemon(pkmnObjects)
-compPkmn = pkmnObjects[compChoice]
-for y in pkmnObjects:
-    if y.getName() == userChoice:
-        #print("MATCH")
-        userPkmn = y
-        break
-for x in range(len(pkmnObjects)):
-    print(x)
-    print(compChoice)
-    if compPkmn == userPkmn:
-        compChoice = Pokemon.choosePokemon(pkmnObjects)
-        compPkmn = pkmnObjects[compChoice - 1]
+'''
+def chooseCompPkmn():
+    compChoice = Pokemon.choosePokemon(pkmnObjects)
+    compPkmn = pkmnObjects[compChoice]
+    for y in pkmnObjects:
+        if y.getName() == userChoice:
+            #print("MATCH")
+            userPkmn = y
+            break
+    for x in range(len(pkmnObjects)):
+        if compPkmn == userPkmn:
+            compChoice = Pokemon.choosePokemon(pkmnObjects)
+            compPkmn = pkmnObjects[compChoice - 1]
 
 
-game = Play(userPkmn, compPkmn)
+'''game = Play(userPkmn, compPkmn)
 print("Your Pokemon is " + str(userPkmn) + "The computers Pokemon is " + str(compPkmn))
 game.initAtt()'''
 #while userPkmn.getHP() > 0:
   #game.useMove()
   #game.switchTurn()
-
 BASICFONT = pygame.font.Font('freesansbold.ttf',16)
-text = "What Pokemon do you want to use? To choose Samurott, press left." \
-        " To choose Typhlosion press up. To choose Torterra press right."
-print = BASICFONT.render(text,1,(0,0,0))
+chooseCharacter = "What Pokemon do you want to use? Left arrow key for Samurott, right for Torterra, up for Typhlosion."
+print = BASICFONT.render(chooseCharacter,1,(0,0,0))
 Rect = print.get_rect()
 Rect.topleft = (50, 400)
 chosenPkmn = False
@@ -306,16 +313,19 @@ chosenPkmn = False
 while True:
     DISPLAYSURF.fill((0,0,0))
     background = pygame.transform.scale(title_screen,(900, 500))
-    battlescene = pygame.transform.scale(battle_screen,(900, 500))
+    battle_screen = pygame.transform.scale(battle_screen,(900, 500))
     #DISPLAYSURF.blit(background,(0, 0))
 
     if chosenPkmn == False:
         DISPLAYSURF.blit(background,(0,0))
+        DISPLAYSURF.blit(print, Rect)
 
-    if chosenPkmn == True and userPkmn.getHP() > 0:
-        DISPLAYSURF.blit(battlescene,(0,0))
-
-    DISPLAYSURF.blit(print, Rect)
+    if chosenPkmn == True:
+        DISPLAYSURF.blit(battle_screen,(0,0))
+        #message_display(text)
+        game = Play(userPkmn, compPkmn)
+        game.useMove()
+        game.switchTurn()
 
     for event in pygame.event.get():
         #the quit event
@@ -327,12 +337,15 @@ while True:
 
             if event.key == K_RIGHT:
                 userChoice = torterra
+                chosenPkmn = True
 
-            elif event.key == K_LEFT:
+            if event.key == K_LEFT:
                 userChoice = samurott
+                chosenPkmn = True
 
-            elif event.key == K_UP:
+            if event.key == K_UP:
                 userChoice = typhlosion
+                chosenPkmn = True
 
     #update display
     pygame.display.update()
