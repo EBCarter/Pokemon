@@ -56,7 +56,7 @@ class Pokemon:
     round(self.__hp)
 
   def userChooseMove(self):
-    move_choice = input( self.getName() + ", which move do you want to use? Enter the number \n 1): " + self.__move1.getName() + "\n 2): " + self.__move2.getName() + "\n 3): " + self.__move3.getName() + "\n 4): " + self.__move4.getName() + "\n")
+    move_choice = self.getName() + ", which move do you want to use? Enter the number \n 1): " + self.__move1.getName() + "\n 2): " + self.__move2.getName() + "\n 3): " + self.__move3.getName() + "\n 4): " + self.__move4.getName() + "\n"
 
     if move_choice == "1":
       return self.__move1

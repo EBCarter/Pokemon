@@ -11,10 +11,23 @@ pygame.init()
 #make the background
 #background_image = pygame.image.load('')
 
-#the images
+#the pokemon images
 samurott_image = pygame.image.load('samurott.png')
 torterra_image = pygame.image.load('torterra.png')
 typhlosion_image = pygame.image.load('typhlosion.png')
+comp_samurott_image = pygame.image.load('compsamurott.png')
+comp_torterra_image = pygame.image.load('comptorterra.png')
+comp_typhlosion_image = pygame.image.load('comptyphlosion.png')
+
+#transformed images to fit in the box
+torterra_image = pygame.transform.scale(torterra_image,(250,150))
+samurott_image = pygame.transform.scale(samurott_image,(250,150))
+typhlosion_image = pygame.transform.scale(typhlosion_image,(150,150))
+comp_samurott_image = pygame.transform.scale(comp_samurott_image,(250,150))
+comp_torterra_image = pygame.transform.scale(comp_torterra_image,(250,150))
+comp_typhlosion_image = pygame.transform.scale(comp_typhlosion_image,(150,150))
+
+#scene images
 title_screen = pygame.image.load('pokemon-background.png')
 battle_screen = pygame.image.load('battle-scene.png')
 
@@ -32,6 +45,16 @@ BLUE = (0,0,250)
 
 pkmnNames = ["Torterra", "Samurott", "Typhlosion"]
 
+#a nice function that will auto display the text so that I don't have to cry myself to sleep at how many variables I would need otherwise
+def message_display(text,x,y):
+    BASICFONT = pygame.font.Font('freesansbold.ttf',50)
+    TextSurf = BASICFONT.render(text,1,(0,0,0))
+    Rect = TextSurf.get_rect()
+    Rect.topleft = (x,y)
+    DISPLAYSURF.blit(TextSurf, Rect)
+    pygame.display.update()
+    time.sleep(2)
+
 class Play:
   def __init__(self, userPkmn, compPkmn):
     '''self.__pokemon1 = party1[0]
@@ -47,12 +70,16 @@ class Play:
       self.__att1 = self.user
       self.__att2 = self.comp
       self.__p1F = True
-      print("You go first.")
+      print = "You go first."
+      message_display(print, 50, 400)
+      DISPLAYSURF.blit(battle_screen,(0,0))
     else:
       self.__att1 = self.comp
       self.__att2 = self.user
       self.__p1F = False
-      print("The computer goes first.")
+      print = "The computer goes first."
+      message_display(print, 50, 400)
+      DISPLAYSURF.blit(battle_screen,(0,0))
     return self.__p1F
 
   """def switch(self):
@@ -73,11 +100,13 @@ class Play:
     self.__pokemon1 = party1[0]
     self.__pokemon2 = party2[0]"""
 
-  def useMove(self):
+  def useMove(self, __p1F):
     #uses a... move?
-    print("-------------------------------------------")
+    print = "-------------------------------------------"
+    message_display(print, 50, 400)
+    DISPLAYSURF.blit(battle_screen,(0,0))
     if self.__p1F == True:
-        player1move = self.__att1.userChooseMove()
+        move = self.__move1
     elif self.__p1F == False:
         player1move = self.__att1.chooseMove()
     #player1move = self.__att1.userChooseMove()
@@ -192,9 +221,13 @@ class Play:
     if doesHit == False:
       dmg = 0
       if self.__p1F == True:
-          print("Your attack missed!")
+          print = "Your attack missed!"
+          message_display(print, 50, 400)
+          DISPLAYSURF.blit(battle_screen,(0,0))
       elif self.__p1F == False:
-          print(str(compPkmn.getName()) + "\'s attack missed")
+          print = str(compPkmn.getName()) + "\'s attack missed"
+          message_display(print, 50, 400)
+          DISPLAYSURF.blit(battle_screen,(0,0))
     elif doesHit == True:
       dmg = ((22 * player1move.getPower() * (self.__att1.getAttack() / self.__att2.getDefense()))/50)
       if player1move.getPower() != 0:
@@ -202,18 +235,28 @@ class Play:
       dmg *= damageMult
       dmg = round(dmg)
       if self.__p1F == True:
-          print("Your pokemon used " + str(player1move.getName()))
+          print = "Your pokemon used " + str(player1move.getName())
+          message_display(print, 50, 400)
+          DISPLAYSURF.blit(battle_screen,(0,0))
       elif self.__p1F == False:
-          print(str(compPkmn.getName()) + " used " + str(player1move.getName()))
+          print = str(compPkmn.getName()) + " used " + str(player1move.getName())
+          message_display(print, 50, 400)
+          DISPLAYSURF.blit(battle_screen,(0,0))
       self.__att1.gainHP(player1move)
       self.__att2.loseHealth(dmg,player1move, self.__att1)
       if self.__att2.getHP() <= 0:
-        print(self.__att2.getName() + " fainted!")
+        print = self.__att2.getName() + " fainted!"
+        message_display(print, 50, 400)
+        DISPLAYSURF.blit(battle_screen,(0,0))
         self.__party2.remove(self.__att2)
       if damageMult > 1:
-        print("It's super effective!")
+        print = "It's super effective!"
+        message_display(print, 50, 400)
+        DISPLAYSURF.blit(battle_screen,(0,0))
       elif damageMult < 1:
-        print("It's not very effective...")
+        print = "It's not very effective..."
+        message_display(print, 50, 400)
+        DISPLAYSURF.blit(battle_screen,(0,0))
     if player1move.getPower() == 0:
       dmg = 0
 
@@ -235,15 +278,6 @@ class Play:
       self.__att1 = self.user
       self.__att2 = self.comp
       self.__p1F = True
-
-def message_display(text):
-    BASICFONT = pygame.font.Font('freesansbold.ttf',16)
-    TextSurf = BASICFONT.render(text,1,(0,0,0))
-    Rect = TextSurf.get_rect()
-    Rect.topleft = (50,400)
-    DISPLAYSURF.blit(TextSurf, Rect)
-    pygame.display.update()
-    time.sleep(2)
 
 #Moves
 #Water
@@ -285,15 +319,16 @@ userChoice = userChoice.capitalize()
 def chooseCompPkmn():
     compChoice = Pokemon.choosePokemon(pkmnObjects)
     compPkmn = pkmnObjects[compChoice]
-    for y in pkmnObjects:
+    '''for y in pkmnObjects:
         if y.getName() == userChoice:
             #print("MATCH")
             userPkmn = y
-            break
+            break'''
     for x in range(len(pkmnObjects)):
-        if compPkmn == userPkmn:
+        if compPkmn == userChoice:
             compChoice = Pokemon.choosePokemon(pkmnObjects)
-            compPkmn = pkmnObjects[compChoice - 1]
+            compPkmn = pkmnObjects[compChoice]
+    return compPkmn
 
 
 '''game = Play(userPkmn, compPkmn)
@@ -308,6 +343,8 @@ print = BASICFONT.render(chooseCharacter,1,(0,0,0))
 Rect = print.get_rect()
 Rect.topleft = (50, 400)
 chosenPkmn = False
+chooseAI = False
+
 
 #start game loop
 while True:
@@ -324,8 +361,11 @@ while True:
         DISPLAYSURF.blit(battle_screen,(0,0))
         #message_display(text)
         game = Play(userPkmn, compPkmn)
-        game.useMove()
+        first = game.initAtt()
+        game.useMove(first)
         game.switchTurn()
+
+    #if chooseMove == False:
 
     for event in pygame.event.get():
         #the quit event
@@ -335,17 +375,44 @@ while True:
 
         if event.type == KEYDOWN:
 
-            if event.key == K_RIGHT:
-                userChoice = torterra
-                chosenPkmn = True
+            if chosenPkmn == False:
 
-            if event.key == K_LEFT:
-                userChoice = samurott
-                chosenPkmn = True
+                if event.key == K_RIGHT:
+                    userChoice = torterra
+                    chosenPkmn = True
 
-            if event.key == K_UP:
-                userChoice = typhlosion
-                chosenPkmn = True
+                elif event.key == K_LEFT:
+                    userChoice = samurott
+                    chosenPkmn = True
+
+                elif event.key == K_UP:
+                    userChoice = typhlosion
+                    chosenPkmn = True
+
+            elif chosenPkmn == True:
+                if event.key == K_1:
+                    move = 1
+
+    if chooseAI == False and chosenPkmn == True:
+        compPkmn = chooseCompPkmn()
+        #compPkmn = samurott
+        chooseAI = True
+
+    if chosenPkmn == True:
+        if compPkmn == torterra:
+            DISPLAYSURF.blit(comp_torterra_image,(520,34))
+        elif compPkmn == samurott:
+            DISPLAYSURF.blit(comp_samurott_image,(520, 34))
+        elif compPkmn == typhlosion:
+            DISPLAYSURF.blit(comp_typhlosion_image,(550, 34))
+
+    if chosenPkmn == True:
+        if userChoice == torterra:
+            DISPLAYSURF.blit(torterra_image, (80,200))
+        elif userChoice == samurott:
+            DISPLAYSURF.blit(samurott_image, (90,200))
+        elif userChoice == typhlosion:
+            DISPLAYSURF.blit(typhlosion_image, (150,200))
 
     #update display
     pygame.display.update()
