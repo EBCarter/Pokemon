@@ -31,6 +31,18 @@ class Pokemon:
   def getHP(self):
     return self.__hp
 
+  def getMove1(self):
+      return self.__move1.getName()
+
+  def getMove2(self):
+    return self.__move2.getName()
+
+  def getMove3(self):
+    return self.__move3.getName()
+
+  def getMove4(self):
+      return self.__move4.getName()
+
   def getType(self):
     return self.__pkmnType
 
@@ -84,11 +96,13 @@ class Pokemon:
 
   def loseHealth(self, dmg, move, pokemon2):
     self.__hp -= dmg
+    print = ""
     if dmg == 0 and move.getRegain() > 0:
-      print(str(pokemon2.getName()) + " regained " + str(move.getRegain()) + "% of its HP! Its current HP is " + str(pokemon2.getHP()) + ".")
+      print = str(pokemon2.getName()) + " regained " + str(move.getRegain()) + "% of its HP! Its current HP is " + str(pokemon2.getHP()) + "."
     elif dmg == 0:
-      print("It had no effect...")
+      print = "It had no effect..."
     elif dmg > 0 and move.getRegain() > 0:
-      print(str(self.getName()) + " took " + str(dmg) + " damage! Its current HP is " + str(self.getHP()) + ".\n" + str(pokemon2.getName()) + " regained " + str(move.getRegain()) + "% of its HP! Its current HP is " + str(pokemon2.getHP()) + ".")
+      print = str(self.getName()) + " took " + str(dmg) + " damage! Its current HP is " + str(self.getHP()) + "." + str(pokemon2.getName()) + " regained " + str(move.getRegain()) + "% of its HP! Its current HP is " + str(pokemon2.getHP()) + "."
     else:
-      print(str(self.getName()) + " took " + str(dmg) + " damage! Its current HP is " + str(self.getHP()) + ".")
+      print = str(self.getName()) + " took " + str(dmg) + " damage! Its current HP is " + str(self.getHP()) + "."
+    return print
