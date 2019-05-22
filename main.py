@@ -32,7 +32,7 @@ title_screen = pygame.image.load('pokemon-background.png')
 battle_screen = pygame.image.load('battle-scene.png')
 
 #Sets FPS and starts game clock/
-FPS = 10
+FPS = 60
 fpsClock = pygame.time.Clock()
 
 DISPLAYSURF = pygame.display.set_mode((900,500), 0, 32)
@@ -80,6 +80,8 @@ class Play:
     self.__party2 = party'''
     self.user = userPkmn
     self.comp = compPkmn
+    self.__att1 = self.user
+    self.__att2 = self.comp
 
   def initAtt(self):
     #chooses who is first and who is second in attack order
@@ -119,9 +121,10 @@ class Play:
     self.__pokemon1 = party1[0]
     self.__pokemon2 = party2[0]"""
 
-  def useMove(self, first):
+  def useMove(self, first, chosenMove):
     #uses a... move?
     self.__p1F = first
+    player1move = ""
     if self.__p1F == True:
         if chosenMove == 1:
             player1move = userChoice.getMove1()
@@ -132,7 +135,7 @@ class Play:
         elif chosenMove == 4:
             player1move = userChoice.getMove4()
     elif self.__p1F == False:
-        player1move = self.__att1.chooseMove()
+        player1move = self.__att1.chooseMove(compPkmn)
     #player1move = self.__att1.userChooseMove()
 
 
@@ -262,6 +265,8 @@ class Play:
       dmg = round(dmg)
       if self.__p1F == True:
           print = "Your pokemon used " + str(player1move.getName())
+          name = player1move.getName()
+          #print("Your pokemon used " + name)
           message_display(print, 50, 400,50)
           DISPLAYSURF.blit(battle_screen,(0,0))
           pokemon_display_all()
@@ -271,7 +276,7 @@ class Play:
           DISPLAYSURF.blit(battle_screen,(0,0))
           pokemon_display_all()
       self.__att1.gainHP(player1move)
-      print = self.__att2.loseHealth(dmg,player1move, self.__att1)
+      print = self.__att2.loseHealth(dmg,player1move, userChoice, compPkmn, first)
       message_display(print, 50, 400,20)
       DISPLAYSURF.blit(battle_screen,(0,0))
       pokemon_display_all()
@@ -317,18 +322,18 @@ class Play:
 #Moves
 #Water
 samurrise = Move("Samur-Rise", "Water", 50, 95, 0)
-condense = Move("Condense", "Water", 20, 90, 30)
+condense = Move("Condense", "Water", 60, 90, 0)
 hydro = Move("Hydro", "Water", 40, 100, 0)
 #Normal
 fortnite = Move("Fortnite", "Normal", 90, 50, 0)
 #Grass
 bramble = Move("Bramble", "Grass", 40, 100, 0)
-turtle = Move("Turtle", "Grass", 0, 100, 40)
+turtle = Move("Turtle", "Grass", 30, 100, 0)
 #Ground
 spiked = Move("Spiked", "Ground", 60, 65, 0)
 #Fire
-fire_tornado = Move("Fire Tornado", "Fire", 50, 90, 0)
-engulf = Move("Engulf", "Fire", 0, 95, 40)
+fire_tornado = Move("Fire Tornado", "Fire", 50, 95, 0)
+engulf = Move("Engulf", "Fire", 600, 95, 0)
 chicago = Move("Chicago", "Fire", 45, 100, 0)
 
 #Pokemon and stats
@@ -380,6 +385,7 @@ Rect.topleft = (50, 400)
 chosenPkmn = False
 chooseAI = False
 decideMove = True
+first = True
 chosenMove = 0
 
 #start game loop
@@ -409,8 +415,9 @@ while True:
             DISPLAYSURF.blit(battle_screen,(0,0))
             pokemon_display_all()
         if chosenMove != 0 or first == False:
-            game.useMove(first)
+            game.useMove(first, chosenMove)
             first = game.switchTurn()
+            chosenMove = 0
 
     for event in pygame.event.get():
         #the quit event
@@ -455,6 +462,8 @@ while True:
 
                         elif event.key == K_4:
                             chosenMove = 4
+
+                    #chosenMove = 0
 
     if chooseAI == False and chosenPkmn == True:
         compPkmn = chooseCompPkmn()

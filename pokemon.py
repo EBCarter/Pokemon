@@ -32,16 +32,16 @@ class Pokemon:
     return self.__hp
 
   def getMove1(self):
-      return self.__move1.getName()
+      return self.__move1
 
   def getMove2(self):
-    return self.__move2.getName()
+      return self.__move2
 
   def getMove3(self):
-    return self.__move3.getName()
+    return self.__move3
 
   def getMove4(self):
-      return self.__move4.getName()
+      return self.__move4
 
   def getType(self):
     return self.__pkmnType
@@ -83,18 +83,18 @@ class Pokemon:
     choice = random.randint(0, (len(pkmnList)-1))
     return choice
 
-  def chooseMove(self):
+  def chooseMove(self, compPkmn):
       choice = random.randint(1,4)
       if choice == 1:
-        return self.__move1
+        return compPkmn.__move1
       elif choice == 2:
-        return self.__move2
+        return compPkmn.__move2
       elif choice == 3:
-        return self.__move3
+        return compPkmn.__move3
       elif choice == 4:
-          return self.__move4
+          return compPkmn.__move4
 
-  def loseHealth(self, dmg, move, pokemon2):
+  def loseHealth(self, dmg, move, user, comp, turn):
     self.__hp -= dmg
     print = ""
     if dmg == 0 and move.getRegain() > 0:
@@ -104,5 +104,8 @@ class Pokemon:
     elif dmg > 0 and move.getRegain() > 0:
       print = str(self.getName()) + " took " + str(dmg) + " damage! Its current HP is " + str(self.getHP()) + "." + str(pokemon2.getName()) + " regained " + str(move.getRegain()) + "% of its HP! Its current HP is " + str(pokemon2.getHP()) + "."
     else:
-      print = str(self.getName()) + " took " + str(dmg) + " damage! Its current HP is " + str(self.getHP()) + "."
+      if turn == False:
+        print = str(user.getName()) + " took " + str(dmg) + " damage! Its current HP is " + str(self.getHP()) + "."
+      elif turn == True:
+        print = str(comp.getName()) + " took " + str(dmg) + " damage! Its current HP is " + str(comp.getHP()) + "."
     return print
