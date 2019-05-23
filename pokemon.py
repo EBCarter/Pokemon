@@ -95,7 +95,6 @@ class Pokemon:
           return compPkmn.__move4
 
   def loseHealth(self, dmg, move, user, comp, turn):
-    self.__hp -= dmg
     print = ""
     if dmg == 0 and move.getRegain() > 0:
       print = str(pokemon2.getName()) + " regained " + str(move.getRegain()) + "% of its HP! Its current HP is " + str(pokemon2.getHP()) + "."
@@ -105,7 +104,9 @@ class Pokemon:
       print = str(self.getName()) + " took " + str(dmg) + " damage! Its current HP is " + str(self.getHP()) + "." + str(pokemon2.getName()) + " regained " + str(move.getRegain()) + "% of its HP! Its current HP is " + str(pokemon2.getHP()) + "."
     else:
       if turn == False:
+        user.__hp -= dmg
         print = str(user.getName()) + " took " + str(dmg) + " damage! Its current HP is " + str(self.getHP()) + "."
       elif turn == True:
+        comp.__hp -= dmg
         print = str(comp.getName()) + " took " + str(dmg) + " damage! Its current HP is " + str(comp.getHP()) + "."
     return print

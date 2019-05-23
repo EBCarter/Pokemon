@@ -270,6 +270,7 @@ class Play:
           message_display(print, 50, 400,50)
           DISPLAYSURF.blit(battle_screen,(0,0))
           pokemon_display_all()
+
       elif self.__p1F == False:
           print = str(compPkmn.getName()) + " used " + str(player1move.getName())
           message_display(print, 50, 400,50)
@@ -280,6 +281,7 @@ class Play:
       message_display(print, 50, 400,20)
       DISPLAYSURF.blit(battle_screen,(0,0))
       pokemon_display_all()
+
       if self.__att2.getHP() <= 0:
         print = self.__att2.getName() + " fainted!"
         message_display(print, 50, 400,50)
