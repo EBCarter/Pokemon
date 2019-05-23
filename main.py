@@ -285,7 +285,7 @@ class Play:
         message_display(print, 50, 400,50)
         DISPLAYSURF.blit(battle_screen,(0,0))
         pokemon_display_all()
-        self.__party2.remove(self.__att2)
+        #self.__party2.remove(self.__att2)
       if damageMult > 1:
         print = "It's super effective!"
         message_display(print, 50, 400,50)
@@ -409,15 +409,21 @@ while True:
         if decideMove == True:
             first = game.initAtt()
             decideMove = False
+
         if first == True:
             print = "Choose a move. Press the 1, 2, 3, 4 keys to select a move."
             message_display(print, 50, 400,50)
             DISPLAYSURF.blit(battle_screen,(0,0))
             pokemon_display_all()
+
         if chosenMove != 0 or first == False:
             game.useMove(first, chosenMove)
             first = game.switchTurn()
             chosenMove = 0
+
+        if userChoice.getHP() <= 0 or compPkmn.getHP() <= 0:
+            pygame.quit()
+            sys.exit()
 
     for event in pygame.event.get():
         #the quit event
